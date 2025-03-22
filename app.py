@@ -2,9 +2,9 @@ import pandas as pd
 import folium
 from streamlit_folium import folium_static
 import streamlit as st
-import plotly.express as px
- 
-df = pd.read_csv("crime_data.csv")
+import plotly.express as px 
+url = "https://drive.google.com/uc?id=1dqVZQRhasVWlv6mG56RSDAfzF7I0zPvH&export=download"
+df = pd.read_csv(url)
 df["DATE OCC"] = pd.to_datetime(df["DATE OCC"])
 df["Year"] = df["DATE OCC"].dt.year
 df["Month"] = df["DATE OCC"].dt.month
