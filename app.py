@@ -3,15 +3,25 @@ import folium
 from streamlit_folium import folium_static
 import streamlit as st
 import plotly.express as px 
-url = "https://drive.google.com/uc?id=1dqVZQRhasVWlv6mG56RSDAfzF7I0zPvH&export=download"
-df = pd.read_csv(url)
+import gdown
+
+# Download data
+file_id = "1dqVZQRhasVWlv6mG56RSDAfzF7I0zPvH"
+url = f"https://drive.google.com/uc?id={file_id}"
+output = "crime_data.csv"
+gdown.download(url, output, quiet=False)
+
+# Load and process data
+df = pd.read_csv(output)
+
+# ⚠️ ADD THESE CRITICAL COLUMNS ⚠️
 df["DATE OCC"] = pd.to_datetime(df["DATE OCC"])
 df["Year"] = df["DATE OCC"].dt.year
 df["Month"] = df["DATE OCC"].dt.month
-df["Hour"] = df["TIME OCC"] // 100
+df["Hour"] = df["TIME OCC"] // 100  # Extract hour from TIME OCC
 
+# Rest of your code...
 st.title("📌 Crime Data Analysis & Map") 
-
 year_selected = st.slider("Select Year", int(df["Year"].min()), int(df["Year"].max()), int(df["Year"].max()))
 df_filtered = df[df["Year"] == year_selected]
  
